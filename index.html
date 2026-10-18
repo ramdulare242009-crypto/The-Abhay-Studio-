@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Abhay Studio App</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background: #0f172a;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media(min-width: 481px) {
+            .app-container {
+                min-height: 850px;
+                border-radius: 30px;
+                border: 4px solid #334155;
+            }
+        }
+
+        /* Login Screen */
+        #login-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .login-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            background: #1e293b;
+            color: #fff;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .btn {
+            width: 100%;
+            background-color: #38bdf8;
+            color: #0f172a;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
+        }
+
+        .btn:hover {
+            background-color: #0ea5e9;
+        }
+
+        /* Dashboard Screen */
+        #dashboard-screen {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        app-header {
+            background: #1e293b;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+
+        .app-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        .user-badge {
+            background: #0f172a;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            border: 1px solid #334155;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .content-area.active {
+            display: block;
+        }
+
+        .section-heading {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #e2e8f0;
+        }
+
+        .item-card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid #334155;
+        }
+
+        .item-thumb {
+            width: 60px;
+            height: 60px;
+            background: #334155;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #38bdf8;
+            font-size: 22px;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-details h4 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            color: #f8fafc;
+        }
+
+        .item-details p {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .download-btn {
+            background: #0ea5e9;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            background: #0284c7;
+        }
+
+        /* Bottom Nav with 4 Options */
+        .bottom-nav {
+            background: #1e293b;
+            padding: 10px 10px;
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #334155;
+        }
+
+        .nav-item {
+            color: #94a3b8;
+            text-align: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            flex: 1;
+        }
+
+        .nav-item i {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 3px;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: #38bdf8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- 1. LOGIN SCREEN -->
+        <div id="login-screen">
+            <div class="login-logo"><i class="fa-solid fa-clapperboard"></i> The Abhay Studio</div>
+            <p class="login-subtitle">Enter your email to login to your app dashboard.</p>
+            
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="user-email" placeholder="abhay@gmail.com">
+            </div>
+            
+            <button class="btn" onclick="handleLogin()">Login to App</button>
+        </div>
+
+        <!-- 2. DASHBOARD SCREEN -->
+        <div id="dashboard-screen">
+            <app-header>
+                <div class="app-title">The Abhay Studio</div>
+                <div class="user-badge" id="display-email">user@email.com</div>
+            </app-header>
+
+            <!-- TAB 1: HOME -->
+            <div id="tab-home" class="content-area active">
+                <h3 class="section-heading">👋 Welcome to Studio</h3>
+                <div class="item-card">
+                    <div class="item-thumb"><i class="fa-solid fa-star"></i></div>
+                    <div class="item-details">
+                        <h4>Latest Update</h4>
+                        <p>Explore latest cartoon edits & designs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: VIDEOS DOWNLOAD -->
+            <div id="tab-videos" class="content-area">
+                <h3 class="section-heading">🎬 Video Downloader</h3>
+                <div class="item-card">
+                    <div class="item-thumb"><i class="fa-solid fa-video"></i></div>
+                    <div class="item-details">
+                        <h4>Cartoon Animation Edit #01</h4>
+                        <p>HD Quality MP4 - Free Download</p>
+                        <button class="download-btn" onclick="showAlert('Video')">Download Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: PHOTOS DOWNLOAD -->
+            <div id="tab-photos" class="content-area">
+                <h3 class="section-heading">🖼️ Photo & Graphics</h3>
+                <div class="item-card">
+                    <div class="item-thumb"><i class="fa-solid fa-image"></i></div>
+                    <div class="item-details">
+                        <h4>Studio Poster & Thumbnail</h4>
+                        <p>High Resolution Image - Free</p>
+                        <button class="download-btn" onclick="showAlert('Photo')">Download Photo</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: CHROME / WEB LINKS -->
+            <div id="tab-chrome" class="content-area">
+                <h3 class="section-heading">🌐 Connect & Social Links</h3>
+                <a href="https://youtube.com/@abhayteach248?si=R-eXKDv1mecFJsvf" target="_blank" style="text-decoration:none;">
+                    <div class="item-card">
+                        <div class="item-thumb" style="color: #ef4444;"><i class="fa-brands fa-youtube"></i></div>
+                        <div class="item-details">
+                            <h4 style="color: #fff;">YouTube Channel</h4>
+                            <p>Open official channel</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="https://www.instagram.com/theabhaystudio_?mdxt=MXFheXI3OG44aHk3cQ==" target="_blank" style="text-decoration:none;">
+                    <div class="item-card">
+                        <div class="item-thumb" style="color: #ec4899;"><i class="fa-brands fa-instagram"></i></div>
+                        <div class="item-details">
+                            <h4 style="color: #fff;">Instagram Profile</h4>
+                            <p>Open official profile</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="https://whatsapp.com/channel/0029VbBVVWQGzzKXCocJeN1q" target="_blank" style="text-decoration:none;">
+                    <div class="item-card">
+                        <div class="item-thumb" style="color: #22c55e;"><i class="fa-brands fa-whatsapp"></i></div>
+                        <div class="item-details">
+                            <h4 style="color: #fff;">WhatsApp Channel</h4>
+                            <p>Join official channel</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Bottom Navigation with 4 Options -->
+            <div class="bottom-nav">
+                <button class="nav-item active" onclick="switchTab('home', this)"><i class="fa-solid fa-house"></i>Home</button>
+                <button class="nav-item" onclick="switchTab('videos', this)"><i class="fa-solid fa-video"></i>Videos</button>
+                <button class="nav-item" onclick="switchTab('photos', this)"><i class="fa-solid fa-image"></i>Photos</button>
+                <button class="nav-item" onclick="switchTab('chrome', this)"><i class="fa-solid fa-globe"></i>Chrome</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function handleLogin() {
+            const emailInput = document.getElementById('user-email').value;
+            if(emailInput.trim() === '' || !emailInput.includes('@')) {
+                alert('कृपया अपनी सही ईमेल आईडी दर्ज करें!');
+                return;
+            }
+            document.getElementById('display-email').innerText = emailInput;
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('dashboard-screen').style.display = 'flex';
+        }
+
+        function switchTab(tabName, element) {
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabName).classList.add('active');
+            element.classList.add('active');
+        }
+
+        function showAlert(type) {
+            alert(type + ' successfully downloaded for free! (फ्री डाउनलोड)');
+        }
+    </script>
+
+</body>
+</html>
