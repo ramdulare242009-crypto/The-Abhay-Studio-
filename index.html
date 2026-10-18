@@ -295,4 +295,167 @@
         };
     </script>
 </body>
-</html>
+</html>import React, { useState } from 'react';
+import { View, Text, TextInput, Button, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+// 1. Home Screen
+function HomeScreen() {
+  return (
+    <View style={styles.center}>
+      <Text style={styles.title}>Home Page</Text>
+      <Text>Trending Videos & Content</Text>
+    </View>
+  );
+}
+
+// 2. Video / Nova Hub Screen
+function VideoScreen() {
+  return (
+    <View style={styles.center}>
+      <Text style={styles.title}>Nova Hub</Text>
+      <Text>Explore videos here</Text>
+    </View>
+  );
+}
+
+// 3. Photos Screen ( reemplaced Downloads )
+function PhotoScreen() {
+  return (
+    <View style={styles.center}>
+      <Text style={styles.title}>Photos</Text>
+      <Text>Your saved photos will appear here</Text>
+    </View>
+  );
+}
+
+// 4. Profile & Settings Screen ("Me")
+function ProfileScreen({ selectedAccount, onLogout }) {
+  const profileOptions = [
+    'Watch History',
+    'My List',
+    'Messages',
+    'Community',
+    'My Activity',
+    'Settings',
+    'Study Mode',
+    'Feedback & Complaints'
+  ];
+
+  return (
+    <ScrollView style={styles.profileContainer}>
+      <View style={styles.profileHeader}>
+        <Text style={styles.profileName}>Logged in as:</Text>
+        <Text style={styles.profileEmail}>{selectedAccount || 'No Account Selected'}</Text>
+      </View>
+      <FlatList
+        data={profileOptions}
+        keyExtractor={(item, index) => index.toString()}
+        scrollEnabled={false}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={styles.optionItem}>
+            <Text style={styles.optionText}>{item}</Text>
+            <Text style={styles.arrow}>&gt;</Text>
+          </TouchableOpacity>
+        )}
+      />
+      <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
+        <Text style={styles.logoutText}>Log Out</Text>
+      </TouchableOpacity>
+    </ScrollView>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState(null);
+  const [mobileNumber, setMobileNumber] = useState('');
+
+  // उपलब्ध ईमेल अकाउंट्स की लिस्ट
+  const accounts = [
+    { id: '1', email: 'abhaykushwaha2482009@gmail.com' },
+    { id: '2', email: 'ramdulare242009@gmail.com' }
+  ];
+
+  // अगर यूजर लॉग इन नहीं है, तो वेलकम/अकाउंट सिलेक्शन स्क्रीन दिखेगी
+  if (!isLoggedIn) {
+    return (
+      <View style={styles.loginContainer}>
+        <Text style={styles.welcomeTitle}>Welcome!</Text>
+        <Text style={styles.subtitle}>Customise how you're seen</Text>
+        
+        <Text style={styles.label}>Select your Google Account:</Text>
+        {accounts.map((acc) => (
+          <TouchableOpacity
+            key={acc.id}
+            style={[
+              styles.accountCard,
+              selectedAccount === acc.email && styles.selectedAccountCard
+            ]}
+            onPress={() => setSelectedAccount(acc.email)}
+          >
+            <Text>{acc.email}</Text>
+          </TouchableOpacity>
+        ))}
+
+        <Text style={styles.label}>Enter Mobile Number:</Text>
+        <TextInput
+          placeholder="Mobile Number"
+          keyboardType="phone-pad"
+          style={styles.input}
+          value={mobileNumber}
+          onChangeText={setMobileNumber}
+        />
+
+        <Button
+          title="Confirm & Continue"
+          onPress={() => {
+            if (selectedAccount) setIsLoggedIn(true);
+          }}
+          disabled={!selectedAccount}
+        />
+      </View>
+    );
+  }
+
+  // लॉगिन होने के बाद बॉटम नैविगेशन और होम स्क्रीन खुलेंगी
+  return (
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={{ tabBarActiveTintColor: 'tomato', tabBarInactiveTintColor: 'gray' }}>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Nova Hub" component={VideoScreen} />
+        <Tab.Screen name="Photos" component={PhotoScreen} />
+        <Tab.Screen name="Me">
+          {() => <ProfileScreen selectedAccount={selectedAccount} onLogout={() => setIsLoggedIn(false)} />}
+        </Tab.Screen>
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
+
+const styles = StyleSheet.create({
+  loginContainer: { flex: 1, padding: 20, justifyContent: 'center', backgroundColor: '#fff' },
+  welcomeTitle: { fontSize: 28, fontWeight: 'bold', marginBottom: 5 },
+  subtitle: { fontSize: 16, color: '#666', marginBottom: 20 },
+  label: { fontSize: 14, fontWeight: '600', marginTop: 15, marginBottom: 5 },
+  input: { borderWidth: 1, borderColor: '#ccc', padding: 10, borderRadius: 5, marginBottom: 20 },
+  accountCard: { padding: 12, borderWidth: 1, borderColor: '#ddd', borderRadius: 5, marginBottom: 10, backgroundColor: '#f9f9f9' },
+  selectedAccountCard: { borderColor: 'tomato', backgroundColor: '#ffe6e6' },
+  
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  title: { fontSize: 22, fontWeight: 'bold' },
+
+  profileContainer: { flex: 1, backgroundColor: '#fff', padding: 15 },
+  profileHeader: { padding: 20, backgroundColor: '#f1f1f1', borderRadius: 8, marginBottom: 15 },
+  profileName: { fontSize: 14, color: '#555' },
+  profileEmail: { fontSize: 16, fontWeight: 'bold', color: '#000' },
+  optionItem: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 15, borderBottomWidth: 1, borderBottomColor: '#eee' },
+  optionText: { fontSize: 16 },
+  arrow: { fontSize: 16, color: '#888' },
+  logoutButton: { marginTop: 20, padding: 15, backgroundColor: '#ff4d4d', borderRadius: 5, alignItems: 'center' },
+  logoutText: { color: '#fff', fontWeight: 'bold', fontSize: 16 }
+});
+
