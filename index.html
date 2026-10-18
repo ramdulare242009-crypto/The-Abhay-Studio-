@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Abhay Studio App</title>
-    <!-- Google Fonts -->
+    <title>The Abhay Studio</title>
+    <!-- Google Fonts & FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         * {
             margin: 0;
@@ -16,360 +14,285 @@
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
-
         body {
             background-color: #0f172a;
             color: #f8fafc;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 480px;
-            background: #0f172a;
-            min-height: 100vh;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            position: relative;
-            display: flex;
             flex-direction: column;
+            padding-bottom: 70px;
         }
-
-        @media(min-width: 481px) {
-            .app-container {
-                min-height: 850px;
-                border-radius: 30px;
-                border: 4px solid #334155;
-            }
-        }
-
-        /* Login Screen */
-        #login-screen {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .login-logo {
-            font-size: 28px;
-            font-weight: 700;
-            color: #38bdf8;
-            margin-bottom: 10px;
-        }
-
-        .login-subtitle {
-            color: #94a3b8;
-            font-size: 0.95rem;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
-            width: 100%;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #cbd5e1;
-            font-size: 0.9rem;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            background: #1e293b;
-            color: #fff;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        .btn {
-            width: 100%;
-            background-color: #38bdf8;
-            color: #0f172a;
-            padding: 14px;
-            border-radius: 12px;
-            border: none;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
-        }
-
-        .btn:hover {
-            background-color: #0ea5e9;
-        }
-
-        /* Dashboard Screen */
-        #dashboard-screen {
-            display: none;
-            flex: 1;
-            flex-direction: column;
-        }
-
-        app-header {
-            background: #1e293b;
-            padding: 20px;
+        /* Top Header */
+        .app-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 15px 20px;
+            background-color: #1e293b;
             border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-
         .app-title {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #38bdf8;
         }
-
-        .user-badge {
-            background: #0f172a;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            color: #94a3b8;
-            border: 1px solid #334155;
+        .header-icons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
-
-        .content-area {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
+        .header-icons i {
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+        /* Search Bar Modal / Container */
+        .search-container {
+            padding: 10px 20px;
+            background: #1e293b;
             display: none;
         }
-
-        .content-area.active {
-            display: block;
+        .search-container input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: white;
+            outline: none;
         }
-
-        .section-heading {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            color: #e2e8f0;
-        }
-
-        .item-card {
-            background: #1e293b;
-            border-radius: 12px;
+        /* Tab Content Areas */
+        .tab-content {
+            display: none;
             padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border: 1px solid #334155;
-        }
-
-        .item-thumb {
-            width: 60px;
-            height: 60px;
-            background: #334155;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #38bdf8;
-            font-size: 22px;
-        }
-
-        .item-details {
             flex: 1;
         }
-
-        .item-details h4 {
-            font-size: 0.95rem;
-            margin-bottom: 4px;
-            color: #f8fafc;
+        .tab-content.active {
+            display: block;
         }
-
-        .item-details p {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            margin-bottom: 8px;
-        }
-
-        .download-btn {
-            background: #0ea5e9;
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: none;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-
-        .download-btn:hover {
-            background: #0284c7;
-        }
-
-        /* Bottom Nav with 4 Options */
-        .bottom-nav {
+        /* Cards */
+        .card {
             background: #1e293b;
-            padding: 10px 10px;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #334155;
+        }
+        .card img {
+            width: 100%;
+            border-radius: 8px;
+            height: 180px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .card h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        .card p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #1e293b;
+            border-top: 1px solid #334155;
             display: flex;
             justify-content: space-around;
-            border-top: 1px solid #334155;
+            padding: 10px 0;
+            z-index: 100;
         }
-
         .nav-item {
-            color: #94a3b8;
             text-align: center;
-            font-size: 0.7rem;
+            color: #94a3b8;
+            font-size: 0.75rem;
             cursor: pointer;
             background: none;
             border: none;
-            flex: 1;
+            outline: none;
         }
-
         .nav-item i {
+            font-size: 1.2rem;
             display: block;
-            font-size: 1.1rem;
             margin-bottom: 3px;
         }
-
-        .nav-item.active, .nav-item:hover {
+        .nav-item.active {
             color: #38bdf8;
+        }
+        /* Profile Screen */
+        .profile-box {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .profile-box img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 2px solid #38bdf8;
+        }
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #1e293b;
+            border: 1px solid #475569;
+            color: white;
+            border-radius: 6px;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 10px;
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        
-        <!-- 1. LOGIN SCREEN -->
-        <div id="login-screen">
-            <div class="login-logo"><i class="fa-solid fa-clapperboard"></i> The Abhay Studio</div>
-            <p class="login-subtitle">Enter your email to login to your app dashboard.</p>
-            
-            <div class="input-group">
-                <label>Email Address</label>
-                <input type="email" id="user-email" placeholder="abhay@gmail.com">
-            </div>
-            
-            <button class="btn" onclick="handleLogin()">Login to App</button>
+    <!-- Top App Bar -->
+    <div class="app-header">
+        <div class="app-title">The Abhay Studio</div>
+        <div class="header-icons">
+            <i class="fa-solid fa-search" onclick="toggleSearch()"></i>
+            <i class="fa-solid fa-user-circle" onclick="switchTab('profile', document.getElementById('nav-profile'))"></i>
         </div>
+    </div>
 
-        <!-- 2. DASHBOARD SCREEN -->
-        <div id="dashboard-screen">
-            <app-header>
-                <div class="app-title">The Abhay Studio</div>
-                <div class="user-badge" id="display-email">user@email.com</div>
-            </app-header>
+    <!-- Search Bar -->
+    <div class="search-container" id="searchBox">
+        <input type="text" placeholder="सर्च करें..." id="searchInput" onkeyup="filterContent()">
+    </div>
 
-            <!-- TAB 1: HOME -->
-            <div id="tab-home" class="content-area active">
-                <h3 class="section-heading">👋 Welcome to Studio</h3>
-                <div class="item-card">
-                    <div class="item-thumb"><i class="fa-solid fa-star"></i></div>
-                    <div class="item-details">
-                        <h4>Latest Update</h4>
-                        <p>Explore latest cartoon edits & designs.</p>
-                    </div>
-                </div>
-            </div>
+    <!-- TAB 1: HOME PAGE (सारी जानकारी) -->
+    <div id="home" class="tab-content active">
+        <h2 style="font-size: 1.1rem; margin-bottom: 10px;">Welcome to Studio</h2>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500" alt="Post">
+            <h3>Latest Cartoon Animation Update</h3>
+            <p>यहाँ आपके होम पेज की सारी ताज़ा जानकारियां और पोस्ट दिखाई देंगी।</p>
+        </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500" alt="Video">
+            <h3>Motu Patlu Special Edit</h3>
+            <p>नवीनतम वीडियो और प्रोजेक्ट्स यहाँ उपलब्ध हैं।</p>
+        </div>
+    </div>
 
-            <!-- TAB 2: VIDEOS DOWNLOAD -->
-            <div id="tab-videos" class="content-area">
-                <h3 class="section-heading">🎬 Video Downloader</h3>
-                <div class="item-card">
-                    <div class="item-thumb"><i class="fa-solid fa-video"></i></div>
-                    <div class="item-details">
-                        <h4>Cartoon Animation Edit #01</h4>
-                        <p>HD Quality MP4 - Free Download</p>
-                        <button class="download-btn" onclick="showAlert('Video')">Download Video</button>
-                    </div>
-                </div>
-            </div>
+    <!-- TAB 2: VIDEOS (सिर्फ वीडियोज़) -->
+    <div id="videos" class="tab-content">
+        <h2 style="font-size: 1.1rem; margin-bottom: 10px;">All Videos</h2>
+        <div class="card">
+            <iframe width="100%" height="160" src="https://www.youtube.com/embed/dQw4w9WgXcQ" style="border:none; border-radius:8px;" allowfullscreen></iframe>
+            <h3 style="margin-top: 8px;">Cartoon Animation Edit #01</h3>
+            <p>HD Quality Video - Free Watch</p>
+        </div>
+    </div>
 
-            <!-- TAB 3: PHOTOS DOWNLOAD -->
-            <div id="tab-photos" class="content-area">
-                <h3 class="section-heading">🖼️ Photo & Graphics</h3>
-                <div class="item-card">
-                    <div class="item-thumb"><i class="fa-solid fa-image"></i></div>
-                    <div class="item-details">
-                        <h4>Studio Poster & Thumbnail</h4>
-                        <p>High Resolution Image - Free</p>
-                        <button class="download-btn" onclick="showAlert('Photo')">Download Photo</button>
-                    </div>
-                </div>
-            </div>
+    <!-- TAB 3: PHOTOS & PROMPTS (फोटोज़ और प्रॉम्प्ट्स) -->
+    <div id="photos" class="tab-content">
+        <h2 style="font-size: 1.1rem; margin-bottom: 10px;">Photos & Prompts</h2>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=500" alt="Art">
+            <h3>Studio Poster & Thumbnail</h3>
+            <p><strong>Prompt:</strong> 3D cartoon style vibrant lighting, cinematic render for Abhay Studio.</p>
+        </div>
+    </div>
 
-            <!-- TAB 4: CHROME / WEB LINKS -->
-            <div id="tab-chrome" class="content-area">
-                <h3 class="section-heading">🌐 Connect & Social Links</h3>
-                <a href="https://youtube.com/@abhayteach248?si=R-eXKDv1mecFJsvf" target="_blank" style="text-decoration:none;">
-                    <div class="item-card">
-                        <div class="item-thumb" style="color: #ef4444;"><i class="fa-brands fa-youtube"></i></div>
-                        <div class="item-details">
-                            <h4 style="color: #fff;">YouTube Channel</h4>
-                            <p>Open official channel</p>
-                        </div>
-                    </div>
-                </a>
-                <a href="https://www.instagram.com/theabhaystudio_?mdxt=MXFheXI3OG44aHk3cQ==" target="_blank" style="text-decoration:none;">
-                    <div class="item-card">
-                        <div class="item-thumb" style="color: #ec4899;"><i class="fa-brands fa-instagram"></i></div>
-                        <div class="item-details">
-                            <h4 style="color: #fff;">Instagram Profile</h4>
-                            <p>Open official profile</p>
-                        </div>
-                    </div>
-                </a>
-                <a href="https://whatsapp.com/channel/0029VbBVVWQGzzKXCocJeN1q" target="_blank" style="text-decoration:none;">
-                    <div class="item-card">
-                        <div class="item-thumb" style="color: #22c55e;"><i class="fa-brands fa-whatsapp"></i></div>
-                        <div class="item-details">
-                            <h4 style="color: #fff;">WhatsApp Channel</h4>
-                            <p>Join official channel</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Bottom Navigation with 4 Options -->
-            <div class="bottom-nav">
-                <button class="nav-item active" onclick="switchTab('home', this)"><i class="fa-solid fa-house"></i>Home</button>
-                <button class="nav-item" onclick="switchTab('videos', this)"><i class="fa-solid fa-video"></i>Videos</button>
-                <button class="nav-item" onclick="switchTab('photos', this)"><i class="fa-solid fa-image"></i>Photos</button>
-                <button class="nav-item" onclick="switchTab('chrome', this)"><i class="fa-solid fa-globe"></i>Chrome</button>
+    <!-- TAB 4: PROFILE & LOGIN (प्रोफाइल और लॉगिन डिटेल्स) -->
+    <div id="profile" class="tab-content">
+        <div class="profile-box" id="profileNotLoggedIn">
+            <h2>Account Login</h2>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 15px;">अपना मोबाइल नंबर या ईमेल दर्ज करें</p>
+            <div class="login-form">
+                <input type="text" id="userInput" placeholder="मोबाइल नंबर या ईमेल आईडी">
+                <button onclick="loginUser()">Login / Verify</button>
             </div>
         </div>
+        <div class="profile-box" id="profileLoggedIn" style="display: none;">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Profile">
+            <h2 id="dispUser">User</h2>
+            <p style="color: #38bdf8; margin-top: 5px;" id="dispInfo">Logged in successfully</p>
+            <button onclick="logoutUser()" style="margin-top: 20px; padding: 8px 20px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer;">Logout</button>
+        </div>
+    </div>
 
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <button class="nav-item active" id="nav-home" onclick="switchTab('home', this)">
+            <i class="fa-solid fa-home"></i> Home
+        </button>
+        <button class="nav-item" id="nav-videos" onclick="switchTab('videos', this)">
+            <i class="fa-solid fa-video"></i> Videos
+        </button>
+        <button class="nav-item" id="nav-photos" onclick="switchTab('photos', this)">
+            <i class="fa-solid fa-image"></i> Photos
+        </button>
+        <button class="nav-item" id="nav-profile" onclick="switchTab('profile', this)">
+            <i class="fa-solid fa-user"></i> Profile
+        </button>
     </div>
 
     <script>
-        function handleLogin() {
-            const emailInput = document.getElementById('user-email').value;
-            if(emailInput.trim() === '' || !emailInput.includes('@')) {
-                alert('कृपया अपनी सही ईमेल आईडी दर्ज करें!');
+        // Tab Switching Logic
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            if(element) element.classList.add('active');
+        }
+
+        // Toggle Search Bar
+        function toggleSearch() {
+            let box = document.getElementById('searchBox');
+            box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Login System simulation with mobile/email
+        function loginUser() {
+            let val = document.getElementById('userInput').value;
+            if(val.trim() === "") {
+                alert("कृपया सही मोबाइल नंबर या ईमेल आईडी दर्ज करें!");
                 return;
             }
-            document.getElementById('display-email').innerText = emailInput;
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('dashboard-screen').style.display = 'flex';
+            localStorage.setItem('abhay_user', val);
+            loadProfileData();
         }
 
-        function switchTab(tabName, element) {
-            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById('tab-' + tabName).classList.add('active');
-            element.classList.add('active');
+        function loadProfileData() {
+            let savedUser = localStorage.getItem('abhay_user');
+            if(savedUser) {
+                document.getElementById('profileNotLoggedIn').style.display = 'none';
+                document.getElementById('profileLoggedIn').style.display = 'block';
+                document.getElementById('dispUser').innerText = savedUser;
+                document.getElementById('dispInfo').innerText = "Verified Account / Mobile: " + savedUser;
+            } else {
+                document.getElementById('profileNotLoggedIn').style.display = 'block';
+                document.getElementById('profileLoggedIn').style.display = 'none';
+            }
         }
 
-        function showAlert(type) {
-            alert(type + ' successfully downloaded for free! (फ्री डाउनलोड)');
+        function logoutUser() {
+            localStorage.removeItem('abhay_user');
+            loadProfileData();
         }
+
+        // Run profile check on load
+        window.onload = function() {
+            loadProfileData();
+        };
     </script>
-
 </body>
 </html>
